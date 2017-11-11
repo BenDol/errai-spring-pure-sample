@@ -1,0 +1,535 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <parent>
+    <groupId>com.insclix.mvc</groupId>
+    <artifactId>mvc-demo</artifactId>
+    <version>1.0-SNAPSHOT</version>
+  </parent>
+  <modelVersion>4.0.0</modelVersion>
+
+  <artifactId>mvc</artifactId>
+  <packaging>war</packaging>
+
+  <name>MVC</name>
+
+  <description>
+    MVC Demo Description
+  </description>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <webappDirectory>${project.build.directory}/${project.build.finalName}</webappDirectory>
+
+    <skipTests>false</skipTests>
+    <argLine></argLine>
+    <profileLine></profileLine>
+  </properties>
+
+  <repositories>
+    <repository>
+      <id>jboss</id>
+      <name>JBoss Public Repo</name>
+      <url>https://repository.jboss.org/nexus/content/groups/public</url>
+    </repository>
+    <repository>
+      <id>sonatype-public</id>
+      <name>Sonatype Public Snapshots Repo</name>
+      <url>https://oss.sonatype.org/content/repositories/public</url>
+    </repository>
+    <repository>
+      <id>bintray-expansel-maven</id>
+      <name>Expansel Bintray</name>
+      <url>https://dl.bintray.com/expansel/maven</url>
+    </repository>
+  </repositories>
+
+  <pluginRepositories>
+    <pluginRepository>
+      <id>public-snapshots-repo</id>
+      <url>https://oss.sonatype.org/content/repositories/public/</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </pluginRepository>
+    <pluginRepository>
+      <id>jboss</id>
+      <name>JBoss Public Repo</name>
+      <url>https://repository.jboss.org/nexus/content/groups/public</url>
+    </pluginRepository>
+  </pluginRepositories>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.jboss.errai.bom</groupId>
+        <artifactId>errai-bom</artifactId>
+        <version>${errai.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+  <dependencies>
+    <!-- It is important that the Hibernate dependencies come before the GWT dependencies
+       (or Errai dependencies that transitively include GWT). Otherwise, you get
+       NoSuchMethodError on JPA2 calls like EntityManagerFactory.getMetamodel(). -->
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-entitymanager</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>com.expansel</groupId>
+      <artifactId>errai-spring-server</artifactId>
+      <version>0.3.0</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <!-- Errai -->
+    <dependency>
+      <groupId>org.jboss.errai</groupId>
+      <artifactId>errai-annotation-processors</artifactId>
+      <version>${errai.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jboss.errai</groupId>
+      <artifactId>errai-codegen-gwt</artifactId>
+      <version>${errai.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jboss.errai</groupId>
+      <artifactId>errai-codegen</artifactId>
+      <version>${errai.version}</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.jboss.errai</groupId>
+      <artifactId>errai-ui</artifactId>
+      <version>${errai.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jboss.errai</groupId>
+      <artifactId>errai-ioc</artifactId>
+      <version>${errai.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jboss.errai</groupId>
+      <artifactId>errai-bus</artifactId>
+      <version>${errai.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jboss.errai</groupId>
+      <artifactId>errai-cdi-client</artifactId>
+      <version>${errai.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jboss.errai</groupId>
+      <artifactId>errai-security-server</artifactId>
+      <version>${errai.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jboss.errai</groupId>
+      <artifactId>errai-security-client</artifactId>
+      <version>${errai.version}</version>
+    </dependency>
+
+    <!-- Spring -->
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-beans</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-tx</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-aop</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-expression</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-orm</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-context</artifactId>
+      <version>${spring.version}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>commons-logging</groupId>
+          <artifactId>commons-logging</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-core</artifactId>
+      <version>${spring.version}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>commons-logging</groupId>
+          <artifactId>commons-logging</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-web</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-webmvc</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-test</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework.security</groupId>
+      <artifactId>spring-security-test</artifactId>
+      <version>${spring-security.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-context-support</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.security</groupId>
+      <artifactId>spring-security-core</artifactId>
+      <version>${spring-security.version}</version>
+      <classifier>sources</classifier>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.security</groupId>
+      <artifactId>spring-security-aspects</artifactId>
+      <version>${spring-security.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.security</groupId>
+      <artifactId>spring-security-web</artifactId>
+      <version>${spring-security.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.security</groupId>
+      <artifactId>spring-security-config</artifactId>
+      <version>${spring-security.version}</version>
+    </dependency>
+
+    <!-- Jersey -->
+    <dependency>
+      <groupId>org.glassfish.jersey.core</groupId>
+      <artifactId>jersey-server</artifactId>
+      <version>${jersey.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.glassfish.jersey.media</groupId>
+      <artifactId>jersey-media-json-jackson</artifactId>
+      <version>${jersey.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.glassfish.jersey.media</groupId>
+      <artifactId>jersey-media-jaxb</artifactId>
+      <version>${jersey.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.glassfish.jersey.containers</groupId>
+      <artifactId>jersey-container-servlet</artifactId>
+      <version>${jersey.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.glassfish.jersey.ext</groupId>
+      <artifactId>jersey-spring4</artifactId>
+      <version>${jersey.version}</version>
+      <exclusions>
+        <exclusion>
+          <artifactId>spring-context</artifactId>
+          <groupId>org.springframework</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>spring-beans</artifactId>
+          <groupId>org.springframework</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>spring-core</artifactId>
+          <groupId>org.springframework</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>spring-web</artifactId>
+          <groupId>org.springframework</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>jersey-server</artifactId>
+          <groupId>org.glassfish.jersey.core</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>
+            jersey-container-servlet-core
+          </artifactId>
+          <groupId>org.glassfish.jersey.containers</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>hk2</artifactId>
+          <groupId>org.glassfish.hk2</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>spring-aop</artifactId>
+          <groupId>org.springframework</groupId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+
+    <!-- GWT -->
+    <dependency>
+      <groupId>com.google.gwt</groupId>
+      <artifactId>gwt-user</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.google.gwt</groupId>
+      <artifactId>gwt-dev</artifactId>
+    </dependency>
+
+    <!-- GwtMaterial -->
+    <dependency>
+      <groupId>com.github.gwtmaterialdesign</groupId>
+      <artifactId>gwt-material</artifactId>
+      <version>${gwt-material.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.github.gwtmaterialdesign</groupId>
+      <artifactId>gwt-material-themes</artifactId>
+      <version>${gwt-material.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.github.gwtmaterialdesign</groupId>
+      <artifactId>gwt-material-addins</artifactId>
+      <version>${gwt-material.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.github.gwtmaterialdesign</groupId>
+      <artifactId>gwt-material-jquery</artifactId>
+      <version>${gwt-material.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.github.gwtmaterialdesign</groupId>
+      <artifactId>gwt-material-table</artifactId>
+      <version>${gwt-material.version}</version>
+    </dependency>
+
+    <!-- Jackson -->
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-core</artifactId>
+      <version>${jackson.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
+      <version>${jackson.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-annotations</artifactId>
+      <version>${jackson.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.datatype</groupId>
+      <artifactId>jackson-datatype-hibernate3</artifactId>
+      <version>${jackson.version}</version>
+    </dependency>
+
+    <!-- Runtime / Container dependencies -->
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>${slf4j.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-log4j12</artifactId>
+      <version>${slf4j.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>jul-to-slf4j</artifactId>
+      <version>${slf4j.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>commons-logging</groupId>
+      <artifactId>commons-logging</artifactId>
+      <version>${commons-logging.version}</version>
+    </dependency>
+
+    <!-- JUnit -->
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <scope>provided</scope>
+    </dependency>
+
+  </dependencies>
+
+  <build>
+    <sourceDirectory>src/main/java</sourceDirectory>
+    <finalName>${project.artifactId}</finalName>
+    <outputDirectory>${webappDirectory}/WEB-INF/classes</outputDirectory>
+
+    <resources>
+      <resource>
+        <directory>src/main/java</directory>
+      </resource>
+      <resource>
+        <directory>src/main/resources</directory>
+      </resource>
+    </resources>
+
+    <plugins>
+      <plugin>
+        <groupId>net.ltgt.gwt.maven</groupId>
+        <artifactId>gwt-maven-plugin</artifactId>
+        <version>${gwt-maven-plugin.version}</version>
+        <extensions>true</extensions>
+        <configuration>
+          <moduleName>com.insclix.mvc.App</moduleName>
+          <style>OBFUSCATED</style>
+          <logLevel>INFO</logLevel>
+          <sourceLevel>${java.version}</sourceLevel>
+          <jvmArgs>
+            <jvmArg>${argLine}</jvmArg>
+            <jvmArg>-Xmx1g</jvmArg>
+            <jvmArg>-Xms1g</jvmArg>
+            <jvmArg>-XX:CompileThreshold=7000</jvmArg>
+            <jvmArg>-Derrai.dev.context=${errai.dev.context}</jvmArg>
+            <jvmArg>-Derrai.client.local.class.pattern=${errai.client.class.pattern}</jvmArg>
+            <jvmArg>${profileLine}</jvmArg>
+          </jvmArgs>
+          <optimize>9</optimize>
+          <compilerArgs>
+            <compilerArg>-compileReport</compilerArg>
+            <compilerArg>-XcompilerMetrics</compilerArg>
+          </compilerArgs>
+          <warDir>${webappDirectory}</warDir>
+          <launcherDir>${webappDirectory}</launcherDir>
+          <classpathScope>compile+runtime</classpathScope>
+          <failOnError>true</failOnError>
+        </configuration>
+        <executions>
+          <execution>
+            <goals>
+              <goal>compile</goal>
+              <goal>test</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-resources-plugin</artifactId>
+        <version>${maven-resources-plugin.version}</version>
+        <executions>
+          <execution>
+            <id>copy-resources</id>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${webappDirectory}</outputDirectory>
+              <resources>
+                <resource>
+                  <directory>src/main/webapp</directory>
+                  <filtering>true</filtering>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-clean-plugin</artifactId>
+        <version>${maven-clean-plugin.version}</version>
+        <configuration>
+          <filesets>
+            <fileset>
+              <directory>${basedir}</directory>
+              <includes>
+                <include>www-test/**</include>
+                <include>.gwt/**</include>
+                <include>.errai/**</include>
+                <include>src/main/gwt-unitCache/**</include>
+                <include>src/main/webapp/mvc/**</include>
+                <include>src/main/webapp/WEB-INF/deploy/**</include>
+                <include>src/main/webapp/WEB-INF/lib/**</include>
+                <include>src/main/webapp/WEB-INF/classes/**</include>
+                <include>**/*.JUnit/**</include>
+                <include>monitordb.*</include>
+              </includes>
+            </fileset>
+          </filesets>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-deploy-plugin</artifactId>
+        <version>${maven-deploy-plugin.version}</version>
+        <configuration>
+          <skip>true</skip>
+        </configuration>
+      </plugin>
+
+      <!-- Tests are skipped by default because they require additional GWT dependencies.
+         Run mvn with -Pintegration-test to enable testing. -->
+      <plugin>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>${maven-surefire-plugin.version}</version>
+        <configuration>
+          <skipTests>${skipTests}</skipTests>
+        </configuration>
+      </plugin>
+
+    </plugins>
+  </build>
+
+  <profiles>
+    <profile>
+      <id>dev</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>net.ltgt.gwt.maven</groupId>
+            <artifactId>gwt-maven-plugin</artifactId>
+            <configuration combine.children="override">
+              <style combine.self="override">PRETTY</style>
+              <draftCompile combine.self="override">true</draftCompile>
+              <optimize combine.self="override">0</optimize>
+              <compilerArgs combine.children="override"/>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+</project>

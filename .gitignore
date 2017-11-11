@@ -1,0 +1,13 @@
+.idea/
+!runConfigurations/
+.errai/
+*/**/gwt-unitCache/*
+target/*
+*/src/main/webapp/WEB-INF/classes/*
+*/src/main/webapp/WEB-INF/deploy/*
+*/src/main/webapp/mvc/*
+*/**/logs/*
+mvc/target/*
+mvc/node_modules/*
+mvc/pwa/node/*
+**/*.iml

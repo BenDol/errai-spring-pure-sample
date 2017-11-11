@@ -1,0 +1,14 @@
+@media screen and (min-width: 600px) {
+    #auction-page #carousel-content {
+        padding-left: 40px !important;
+        padding-right: 40px !important;
+        padding-top: 112px !important;
+    }
+}
+
+@media screen and (min-width: 600px) and (max-width: 900px) {
+    #custom-search input {
+        width: calc(100% - 60px) !important;
+        padding-left: 60px !important;
+    }
+}

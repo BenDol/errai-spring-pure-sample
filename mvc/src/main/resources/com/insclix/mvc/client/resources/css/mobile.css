@@ -1,0 +1,134 @@
+/** Media Queries for Mobile Devices **/
+@media screen and (max-width: 600px) {
+    /** Header **/
+    header nav .nav-content .row {
+        width: 100%;
+    }
+
+    header #custom-search input {
+        width: calc(100% - 4rem) !important;
+        padding-right: 0rem;
+    }
+
+    header #custom-search label {
+        left: 0.2rem;
+    }
+
+    header #custom-search i {
+        right: 0.2rem;
+    }
+
+    .brand-logo, .page-label {
+        display: none;
+    }
+
+    .side-nav {
+        left: -210px;
+    }
+
+  /*  !** Main **!
+    main {
+        padding-top: 108px !important;
+    }*/
+
+    /** Auction Page **/
+    #auction-page .tabRow {
+        width: 100% !important;
+    }
+
+    #auction-page #carousel-content {
+        padding: 0px !important;
+        padding-top: 100px !important;
+    }
+
+    #auction-page #history-tab span:nth-child(3) {
+        padding: 0px 40px;
+    }
+
+    #auction-page .col {
+        margin: 0px !important;
+        padding: 8px;
+        padding-bottom: 0px;
+    }
+
+    #auction-page .card {
+        margin: 0px;
+    }
+
+    /** Bid Overlay **/
+    #bid-overlay {
+        margin-top: 0px !important;
+        height: 100vh;
+    }
+
+    #bid-overlay .header {
+        margin-bottom: 0px;
+        background: white;
+        color: black;
+        border-bottom: 1px solid #e9e9e9;
+    }
+
+    #bid-overlay .header i {
+        font-size: 24px !important;
+        color: #2196f3 !important;
+    }
+
+    #auction-page .header div span:nth-child(2) {
+        font-size: 1.2em;
+    }
+
+    /** Preview Overlay **/
+    #preview-mobile-overlay {
+        background: rgba(0, 0, 0, 0.5);
+        padding: 12px;
+        padding-top: 120px;
+    }
+
+    /** History Panel **/
+    .timeline .line {
+        display: none;
+    }
+
+    .timeline canvas {
+        width: 40px !important;
+        height: 40px !important;
+    }
+
+    .timeline .timeline-item {
+        border-bottom: 1px solid #e9e9e9;
+    }
+
+    .timeline .timeline-content {
+        padding-top: 0px !important;
+        box-shadow: none !important;
+        background: transparent !important;
+    }
+
+    .timeline .timeline-content div:first-child {
+        padding: 0px !important;
+    }
+
+    .timeline .chip {
+        font-size: 0.8em !important;;
+        margin-top: 12px !important;;
+        display: block !important;;
+        float: left !important;
+        height: 24px !important;
+        line-height: 24px !important;;
+    }
+
+    .timeline .timeline-content div span:nth-child(2) {
+        margin-right: 0px !important;
+        margin-left: 0px !important;
+    }
+
+    /** POC on Camera Demo **/
+    div[data-field="claimsRow"] {
+        margin-top: 4px;
+    }
+    div[data-field='claimsRow'] .card {
+        margin-bottom: 0px;
+        margin-top: 0px;
+        border-bottom: 1px solid #e9e9e9;
+    }
+}
